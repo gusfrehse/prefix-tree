@@ -8,7 +8,6 @@ I want to make an implemantation of the Huffman coding, so I can compress
 some files. Gus Frehse 10/12/2018
 """
 
-
 class Node:
     dependencies = []
     frequency = 0
@@ -41,8 +40,18 @@ def printNodeNames(nodeList):
     print("]")
 
 # Data
-nodes = []
+import sys
+if len(sys.argv) != 2:
+    print("USAGE: main.py <file>")
+    sys.exit(1)
 
+nodes = []
+with open(sys.argv[1], "r") as f:
+    for line in f:
+        (frequency, name) = line.split()
+        nodes.append(Node([], float(frequency), name))
+printNodeNames(nodes)
+"""
 nodes.append(Node([], 1/2, "a"))
 nodes.append(Node([], 1/4, "b"))
 nodes.append(Node([], 1/8, "c"))
@@ -59,7 +68,7 @@ nodes.append(Node([], 1/8182, "m"))
 nodes.append(Node([], 1/16384, "n"))
 nodes.append(Node([], 1/32768, "o"))
 nodes.append(Node([], 1/32768, "p"))
-
+"""
 while len(nodes) > 1:
     # Sort, so I can get the two smallest frequencies
     nodes.sort(key=getNodeFrequency)
