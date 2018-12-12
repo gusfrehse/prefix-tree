@@ -1,4 +1,4 @@
-#!/usr/bin/env python4
+#!/usr/bin/env python3
 """
 This is a prefix tree (https://en.wikipedia.org/wiki/Trie), I think. I was 
 planning on doing a Huffman tree, but then I realized that is a prefix tree.
