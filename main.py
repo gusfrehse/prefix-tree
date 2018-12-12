@@ -39,41 +39,28 @@ def printNodeNames(nodeList):
         print(node.name, end=" ")
     print("]")
 
-# Data
+#### Data
+
 import sys
 if len(sys.argv) != 2:
     print("USAGE: main.py <file>")
     sys.exit(1)
 
 nodes = []
+# File input
 with open(sys.argv[1], "r") as f:
     for line in f:
         (frequency, name) = line.split()
         nodes.append(Node([], float(frequency), name))
-printNodeNames(nodes)
-"""
-nodes.append(Node([], 1/2, "a"))
-nodes.append(Node([], 1/4, "b"))
-nodes.append(Node([], 1/8, "c"))
-nodes.append(Node([], 1/16, "d"))
-nodes.append(Node([], 1/32, "e"))
-nodes.append(Node([], 1/64, "f"))
-nodes.append(Node([], 1/128, "g"))
-nodes.append(Node([], 1/256, "h"))
-nodes.append(Node([], 1/512, "i"))
-nodes.append(Node([], 1/1024, "j"))
-nodes.append(Node([], 1/2048, "k"))
-nodes.append(Node([], 1/4096, "l"))
-nodes.append(Node([], 1/8182, "m"))
-nodes.append(Node([], 1/16384, "n"))
-nodes.append(Node([], 1/32768, "o"))
-nodes.append(Node([], 1/32768, "p"))
-"""
+
 while len(nodes) > 1:
+    # Print
+    printNodeNames(nodes)
+
     # Sort, so I can get the two smallest frequencies
     nodes.sort(key=getNodeFrequency)
     # Concatenate the two least frequent
     concatenateNodes(nodes, [nodes[0],nodes[1]])
-    # Print
-    printNodeNames(nodes)
+
+printNodeNames(nodes)
 print(nodes[0].frequency)
