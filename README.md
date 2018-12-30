@@ -3,7 +3,7 @@ Implementation of a prefix tree in python 3
 # Usage
 `main.py <inputFile>`
 
-Where `<inputFile` is a file containing the intial nodes, one each line, with the frequency and the name of the node.
+Where `<inputFile>` is a file containing the intial nodes, one each line, with the frequency and the name of the node.
 Example of input file:
 
 ```
