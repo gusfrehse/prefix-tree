@@ -28,15 +28,17 @@ for args in sys.argv:
 
 class Node:
     dependencies = []
+    internal = False
     frequency = 0
     name = "unnamed"
     totalDepen = 0
 
-    def __init__(self, depen, frequ, nam, totalDepe):
+    def __init__(self, depen, frequ, nam, totalDepe, interna):
         self.frequency = frequ
         self.dependencies = depen
         self.totalDepen = totalDepe
         self.name = nam
+        self.internal = interna
 
     def printTreeFormat(self, tabs, binaryCode):
     # Print in a fancy tree format
@@ -45,7 +47,7 @@ class Node:
             self.dependencies[i].printTreeFormat(tabs + 1, str(binaryCode) + str(i))
 
     def printCodeFormat(self, binaryCode):
-        if binaryCode:
+        if binaryCode and not self.internal:
             print(str(binaryCode) + " " + self.name)
         for i in range(len(self.dependencies)):
             self.dependencies[i].printCodeFormat(str(binaryCode) + str(i))
@@ -58,7 +60,7 @@ def concatenateNodes(nodesList, nodes):
     if VERBOSE:
         print("concatenating {} ({}) and {} ({})".format(nodes[0].name, nodes[0].frequency, nodes[1].name, nodes[0].frequency))
     # Create a node that is the combinations of those with least frequency
-    n = Node(nodes, nodes[0].frequency + nodes[1].frequency, nodes[0].name + nodes[1].name, nodes[0].totalDepen + nodes[0].totalDepen)
+    n = Node(nodes, nodes[0].frequency + nodes[1].frequency, nodes[0].name + nodes[1].name, nodes[0].totalDepen + nodes[0].totalDepen, True)
     # Remove the nodes that were concatenated
     for node in nodes:
         nodesList.remove(node)
@@ -79,7 +81,7 @@ nodes = []
 with open(sys.argv[1], "r") as f:
     for line in f:
         (frequency, name) = line.split()
-        nodes.append(Node([], float(frequency), name, 0))
+        nodes.append(Node([], float(frequency), name, 0, False))
 
 while len(nodes) > 1:
     # Print
