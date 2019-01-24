@@ -14,3 +14,6 @@ Example of input file:
 ```
 
 The sum of the probabilities should be `1.0`, altough the application itself won't check for it.
+
+# Output
+The output is not optmized for the Unix pipeline. In the future you will be able to change options so the output fits your need.
