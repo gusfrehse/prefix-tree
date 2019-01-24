@@ -7,6 +7,24 @@ are bugs (that I am yet to discover, so if you find one contact me).
 I want to make an implemantation of the Huffman coding, so I can compress 
 some files. Gus Frehse 10/12/2018
 """
+# Flags
+CODE = True
+PRETTY = False
+VERBOSE = False
+
+# Checking arguments
+import sys
+if len(sys.argv) < 2:
+    print("USAGE: main.py <inputfile> <options>")
+    sys.exit(1)
+
+# Checking arguments
+for args in sys.argv:
+    if "--pretty" in args:
+        PRETTY = True
+        CODE = False
+    if "--verbose" in args:
+        VERBOSE = True
 
 class Node:
     dependencies = []
@@ -22,16 +40,23 @@ class Node:
 
     def printTreeFormat(self, tabs, binaryCode):
     # Print in a fancy tree format
-        print("    " * tabs + binaryCode +  " " + self.name + " " + str(self.frequency))
+        print("    " * tabs + str(binaryCode) +  " " + self.name + " " + str(self.frequency))
         for i in range(len(self.dependencies)):
-            self.dependencies[i].printTreeFormat(tabs + 1, binaryCode + str(i))
+            self.dependencies[i].printTreeFormat(tabs + 1, str(binaryCode) + str(i))
+
+    def printCodeFormat(self, binaryCode):
+        if binaryCode:
+            print(str(binaryCode) + " " + self.name)
+        for i in range(len(self.dependencies)):
+            self.dependencies[i].printCodeFormat(str(binaryCode) + str(i))
 
 def getNodeFrequency(node):
     # Method so I can sort based on the frequency
     return node.frequency
 
 def concatenateNodes(nodesList, nodes):
-    print("concatenating {} ({}) and {} ({})".format(nodes[0].name, nodes[0].frequency, nodes[1].name, nodes[0].frequency))
+    if VERBOSE:
+        print("concatenating {} ({}) and {} ({})".format(nodes[0].name, nodes[0].frequency, nodes[1].name, nodes[0].frequency))
     # Create a node that is the combinations of those with least frequency
     n = Node(nodes, nodes[0].frequency + nodes[1].frequency, nodes[0].name + nodes[1].name, nodes[0].totalDepen + nodes[0].totalDepen)
     # Remove the nodes that were concatenated
@@ -47,13 +72,8 @@ def printNodeNames(nodeList):
         print(node.name, end=" ")
     print("]")
 
+
 #### Data
-
-import sys
-if len(sys.argv) != 2:
-    print("USAGE: main.py <file>")
-    sys.exit(1)
-
 nodes = []
 # File input
 with open(sys.argv[1], "r") as f:
@@ -63,13 +83,17 @@ with open(sys.argv[1], "r") as f:
 
 while len(nodes) > 1:
     # Print
-    printNodeNames(nodes)
+    if VERBOSE:
+        printNodeNames(nodes)
 
-    # Sort, so I can get the two smallest frequencies
+    # Sort, so we can get the two smallest frequencies
     nodes.sort(key=getNodeFrequency)
     # Concatenate the two least frequent
     concatenateNodes(nodes, [nodes[0],nodes[1]])
 
-for i in range(len(nodes)):
-    nodes[i].printTreeFormat(0, "")
-
+if PRETTY:
+    for i in range(len(nodes)):
+       nodes[i].printTreeFormat(0, "")
+elif CODE:
+    for i in range(len(nodes)):
+        nodes[i].printCodeFormat("")
