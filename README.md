@@ -11,7 +11,7 @@ Example of input file:
 0.125 c
 0.125 d
 ```
-The sum of the probabilities should be `1.0`, altough the application itself won't check for it.
+The sum of the probabilities should be `1.0`, although the application itself won't check for it.
 The `<options>` are:
 ```
 --pretty
